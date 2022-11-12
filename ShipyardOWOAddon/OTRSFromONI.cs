@@ -15,7 +15,7 @@ namespace ShipyardOWOAddon
             objectNetworkingInterface = gameObject.GetComponent<ObjectNetworkingInterface>();
             gameObject.AddComponent<SimpleRemoteInterpolation>();
             objectNetworkingInterface.IsPuppet = true;
-
+            syncableMembers = objectNetworkingInterface.GetValues();
 
             base.Start();
         }
