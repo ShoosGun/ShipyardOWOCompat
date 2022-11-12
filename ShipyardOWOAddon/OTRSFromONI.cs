@@ -10,14 +10,14 @@ namespace ShipyardOWOAddon
     {
         ObjectNetworkingInterface objectNetworkingInterface;
         SyncableMember[] syncableMembers;
-
-        protected virtual void Awake()
+        protected override void Start()
         {
             objectNetworkingInterface = gameObject.GetComponent<ObjectNetworkingInterface>();
             gameObject.AddComponent<SimpleRemoteInterpolation>();
             objectNetworkingInterface.IsPuppet = true;
 
-            syncableMembers = objectNetworkingInterface.GetValues();
+
+            base.Start();
         }
         //public override void UpdateObjectData(ISFSObject objectData)
         //{
