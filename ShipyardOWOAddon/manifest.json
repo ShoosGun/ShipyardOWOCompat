@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ow-mods/owml/master/schemas/manifest_schema.json",
+  "filename": "ShipyardOWOAddon.dll",
+  "author": "Locochoco",
+  "name": "ShipyardOWOAddon",
+  "uniqueName": "Locochoco.ShipyardOWOAddon",
+  "version": "0.1.0",
+  "owmlVersion": "2.7.3",
+  "dependencies": [
+    "Locochoco.SlateShipyard",
+    "Vesper.OuterWildsMMO"
+  ]
+}
