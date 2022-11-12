@@ -38,16 +38,5 @@ namespace ShipyardOWOAddon
     {
         bool isPuppet = false;
         public override bool IsPuppet { get => isPuppet; set => isPuppet = value; }
-
-        public ShipData data;
-
-        public void Start() 
-        {
-            ShipyardOWOAddon.modHelper.Console.WriteLine($"{data.name} has started,  is it a puppet? {IsPuppet}");
-            if (IsPuppet)
-            {                
-                //var colliders = GetComponentsInChildren<Collider>();
-            }
-        }
     }
 }

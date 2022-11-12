@@ -39,4 +39,12 @@
       <HintPath>$(AppData)\OuterWildsModManager\\OWML\Mods\Vesper.OuterWildsMMO\SmartFox2X.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <None Update="AssetBundles\error">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AssetBundles\error.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

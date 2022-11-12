@@ -17,6 +17,7 @@ namespace ShipyardOWOAddon
     public class ShipyardOWOAddon : ModBehaviour
     {
         public static IModHelper modHelper;
+        public static GameObject errorPrefab;
         private void Awake()
         {
             SlateShipyard.SlateShipyard.SetNetworkingInterface(new OWONetworkingInterface());
@@ -24,8 +25,11 @@ namespace ShipyardOWOAddon
             Harmony harmony = new("ShipyardOWOAddon.locochoco");
             harmony.PatchAll(typeof(ShipyardOWOAddon));
         }
-        private void Start() 
+        private void Start()
         {
+            AssetBundle bundle = ModHelper.Assets.LoadBundle("AssetBundles/error");
+            errorPrefab = bundle.LoadAsset<GameObject>("error.prefab");
+
             modHelper = ModHelper;
         }
 
@@ -56,10 +60,8 @@ namespace ShipyardOWOAddon
                 Destroy(remoteObject);
                 modHelper.Console.WriteLine($"Ship with name {objName} doesn't have an ObjectNetworkingInterface");
 
-                //TODO here add a object like the error mesh source games
-                remoteObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                remoteObject.GetComponent<Collider>().enabled = false;
-                remoteObject.AddComponent<ShipNetworkingInterface>().data = shipData;
+                remoteObject = Instantiate(errorPrefab);
+                networkingInterface = remoteObject.AddComponent<ShipNetworkingInterface>();
 
             }
             networkingInterface.shipData = shipData;
