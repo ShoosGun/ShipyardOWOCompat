@@ -61,7 +61,7 @@ namespace ShipyardOWOAddon
                 modHelper.Console.WriteLine($"Ship with name {objName} doesn't have an ObjectNetworkingInterface");
 
                 remoteObject = Instantiate(errorPrefab);
-                networkingInterface = remoteObject.AddComponent<ShipNetworkingInterface>();
+                networkingInterface = remoteObject.AddComponent<ErrorNetworkingInterface>();
 
             }
             networkingInterface.shipData = shipData;

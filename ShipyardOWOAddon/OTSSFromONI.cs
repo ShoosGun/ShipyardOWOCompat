@@ -34,7 +34,7 @@ namespace ShipyardOWOAddon
         }
     }
 
-    public class ShipNetworkingInterface : ObjectNetworkingInterface
+    public class ErrorNetworkingInterface : ObjectNetworkingInterface
     {
         bool isPuppet = false;
         public override bool IsPuppet { get => isPuppet; set => isPuppet = value; }
