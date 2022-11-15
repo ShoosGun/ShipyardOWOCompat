@@ -22,8 +22,8 @@ namespace ShipyardOWOAddon
         {
             SlateShipyard.SlateShipyard.SetNetworkingInterface(new OWONetworkingInterface());
 
-            Harmony harmony = new("ShipyardOWOAddon.locochoco");
-            harmony.PatchAll(typeof(ShipyardOWOAddon));
+           Harmony harmony = new("ShipyardOWOAddon.locochoco");
+           harmony.PatchAll(typeof(ShipyardOWOAddon));
         }
         private void Start()
         {
@@ -32,6 +32,27 @@ namespace ShipyardOWOAddon
 
             modHelper = ModHelper;
         }
+
+        //private void LoadToOWOPrefabList() 
+        //{
+        //    for (int i = 0; i < ShipSpawnerManager.ShipAmount(); i++)
+        //    {
+        //        ShipData data = ShipSpawnerManager.GetShipData(i);
+        //         if (data.prefab.TryGetComponent<ObjectNetworkingInterface>(out var networkingInterface))
+        //        {
+        //            data.prefab.AddComponent<OTRSFromONI>();
+        //            var prefabForOWO = Instantiate(data.prefab);
+        //            prefabForOWO.SetActive(false);
+        //            prefabForOWO.AddComponent<OTRSFromONI>();
+        //            DontDestroyOnLoad(prefabForOWO);
+        //            RemoteObjects.CloneStorage.Add(data.name, prefabForOWO);
+        //        }
+        //        else 
+        //        {
+        //            modHelper.Console.WriteLine($"Ship with name {data.name} doesn't have an ObjectNetworkingInterface");
+        //        }
+        //    }
+        //}
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(ConnectionController),"SpawnRemoteObject")]
@@ -53,17 +74,17 @@ namespace ShipyardOWOAddon
                 return;
             }
 
-            GameObject remoteObject = shipData.prefab.Invoke();
+            GameObject remoteObject = shipData.prefab;
 
             if (!remoteObject.TryGetComponent<ObjectNetworkingInterface>(out var networkingInterface))
             {
-                Destroy(remoteObject);
                 modHelper.Console.WriteLine($"Ship with name {objName} doesn't have an ObjectNetworkingInterface");
 
-                remoteObject = Instantiate(errorPrefab);
+                remoteObject = errorPrefab;
                 networkingInterface = remoteObject.AddComponent<ErrorNetworkingInterface>();
 
             }
+            remoteObject = Instantiate(remoteObject);
             networkingInterface.shipData = shipData;
             var comp = remoteObject.AddComponent<OTRSFromONI>();
 

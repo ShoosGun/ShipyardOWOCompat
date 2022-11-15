@@ -36,7 +36,7 @@
       <HintPath>$(AppData)\OuterWildsModManager\OWML\Mods\Locochoco.SlateShipyard\SlateShipyard.dll</HintPath>
     </Reference>
     <Reference Include="SmartFox2X">
-      <HintPath>$(AppData)\OuterWildsModManager\\OWML\Mods\Vesper.OuterWildsMMO\SmartFox2X.dll</HintPath>
+      <HintPath>$(AppData)\OuterWildsModManager\OWML\Mods\Vesper.OuterWildsMMO\SmartFox2X.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
