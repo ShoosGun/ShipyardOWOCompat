@@ -14,11 +14,17 @@ namespace ShipyardOWOAddon
         public override void SpawnRemoteShip(ShipData shipData, GameObject shipObject)
         {
             ShipyardOWOAddon.modHelper.Console.WriteLine($"Spawning remote {shipData.name}");
-            if (shipObject.TryGetComponent<ObjectNetworkingInterface>(out var objectNetworkingInterface))
+            ObjectNetworkingInterface aNetworkingInterface = shipObject.GetComponentInChildren<ObjectNetworkingInterface>();
+            if (aNetworkingInterface != null) //Means there is atleast one ObjectNetworkingInterface on the ship
             {
-                objectNetworkingInterface.shipData = shipData;
+                shipObject.AddComponent<ShipDataAttached>().shipData = shipData;
                 shipObject.AddComponent<OTSSFromONI>();
             }
+        }
+
+        public class ShipDataAttached : MonoBehaviour 
+        {
+            public ShipData shipData;
         }
     }
 }

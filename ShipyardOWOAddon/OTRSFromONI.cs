@@ -2,20 +2,30 @@
 using OuterWildsOnline.SyncObjects;
 using Sfs2X.Entities.Data;
 using SlateShipyard.NetworkingInterface;
+using System.Collections.Generic;
 
 namespace ShipyardOWOAddon
 {
     //ObjectToRecieveSync from ObjectNetworkingInterface
     public class OTRSFromONI : ObjectToRecieveSync
     {
-        ObjectNetworkingInterface objectNetworkingInterface;
-        SyncableMember[] syncableMembers;
+        protected Dictionary<string, SyncObjectNetworkingInterface> objectNetworkingInterfaces = new();
         protected override void Start()
         {
-            objectNetworkingInterface = gameObject.GetComponent<ObjectNetworkingInterface>();
             gameObject.AddComponent<SimpleRemoteInterpolation>();
-            objectNetworkingInterface.IsPuppet = true;
-            syncableMembers = objectNetworkingInterface.GetValues();
+
+            var objectNetworkingInterfaces = GetComponentsInChildren<ObjectNetworkingInterface>();
+            for (int i = 0; i < objectNetworkingInterfaces.Length; i++)
+            {
+                var networkingInterface = objectNetworkingInterfaces[i];
+
+                networkingInterface.IsPuppet = true;
+                this.objectNetworkingInterfaces[networkingInterface.UniqueScriptID] = new()
+                {
+                    objectNetworkingInterface = networkingInterface,
+                    syncableMembers = networkingInterface.GetValues(),
+                };
+            }
 
             base.Start();
         }
@@ -35,13 +45,18 @@ namespace ShipyardOWOAddon
         //}
         protected override void OnExtensionResponse(SFSObject responseParams)
         {
-            for (int i = 0; i < syncableMembers.Length; i++)
+            foreach (var pair in objectNetworkingInterfaces)
             {
-                SyncableMember member = syncableMembers[i];
-                if (responseParams.ContainsKey(member.SyncName))
+                var syncableMembers = pair.Value.syncableMembers;
+                for (int i = 0; i < syncableMembers.Length; i++)
                 {
-                    var data = responseParams.GetData(member.SyncName);
-                    objectNetworkingInterface.SetValue(member.SyncName, data.Data);
+                    SyncableMember member = syncableMembers[i];
+                    string dataKey = string.Join("-", pair.Key, member.SyncName);
+                    if (responseParams.ContainsKey(dataKey))
+                    {
+                        var data = responseParams.GetData(dataKey);
+                        pair.Value.objectNetworkingInterface.SetValue(member.SyncName, data.Data);
+                    }
                 }
             }
 

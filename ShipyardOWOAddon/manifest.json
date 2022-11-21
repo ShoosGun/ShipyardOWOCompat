@@ -4,7 +4,7 @@
   "author": "Locochoco",
   "name": "ShipyardOWOAddon",
   "uniqueName": "Locochoco.ShipyardOWOAddon",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "owmlVersion": "2.7.3",
   "dependencies": [
     "Locochoco.SlateShipyard",
